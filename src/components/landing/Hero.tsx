@@ -2,17 +2,17 @@ import Button from "../ui/Button";
 
 const HeroSection: React.FC = () => {
   return (
-    <section className="py-20 md:py-32" id="hero">
+    <section className="py-16 md:py-24 bg-background-dark" id="hero">
       <div className="container mx-auto px-4 lg:px-10">
         <div className="flex flex-col-reverse md:flex-row items-center gap-12">
           <div className="flex flex-col gap-6 text-center md:text-left md:w-1/2">
-            <h1 className="text-gray-900 dark:text-white text-4xl md:text-6xl font-black leading-tight tracking-[-0.033em]">
+            <h1 className="light:text-gray-900 text-white text-4xl md:text-6xl font-black leading-tight tracking-[-0.033em]">
               Unlock the Power of Your Documents with AI.
             </h1>
-            <p className="text-gray-600 dark:text-gray-300 text-lg md:text-xl font-normal leading-normal">
+            <p className="light:text-gray-600 text-gray-300 text-lg md:text-xl font-normal leading-normal">
               IntelliDoc helps you to summarize, chat, and analyze your documents with the power of AI.
             </p>
-            <Button variant="primary" onClick={() => console.log('Get Started clicked')}>
+            <Button variant="special" onClick={() => console.log('Get Started clicked')}>
               Get Started for Free
             </Button>
           </div>

@@ -1,6 +1,13 @@
 @import "tailwindcss";
 
+/* Define dark variant */
+@custom-variant dark (&:where(.dark, .dark *));
 
-html {
-  font-size: 16px;
+/* Define theme colors + fonts */
+@theme {
+  --color-primary: #1173d4;
+  --color-background-light: #f6f7f8;
+  --color-background-dark: #101922;
+
+  --font-display: "Inter", sans-serif;
 }

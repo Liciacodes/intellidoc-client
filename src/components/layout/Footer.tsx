@@ -8,7 +8,6 @@ const Footer: React.FC = () => {
         <div className="flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-4 text-gray-900 dark:text-white">
             <LogoIcon/>
-            <h2 className="text-xl font-bold leading-tight tracking-[-0.015em]">IntelliDoc</h2>
           </div>
           
           <div className="flex gap-6 text-gray-500 dark:text-gray-400">

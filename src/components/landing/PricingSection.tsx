@@ -27,7 +27,7 @@ const PricingSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-20" id="pricing">
+    <section className="py-20 bg-background-dark" id="pricing">
       <div className="container mx-auto px-4 lg:px-10">
         <div className="text-center">
           <h2 className="text-gray-900 dark:text-white text-3xl md:text-4xl font-bold leading-tight tracking-[-0.015em]">
@@ -56,10 +56,10 @@ const PricingCard: React.FC<{
   const isEnterprise = name === 'Enterprise';
   
   return (
-    <div className={`border rounded-xl p-8 flex flex-col relative ${
+    <div className={`border-2 rounded-xl p-8 flex flex-col relative ${
       popular 
-        ? 'border-2 border-primary' 
-        : 'border-gray-200 dark:border-gray-800'
+        ? 'border border-primary' 
+        : 'dark:border-gray-200 border-gray-800'
     }`}>
       {popular && (
         <div className="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 px-3 py-1 bg-primary text-white text-sm font-semibold rounded-full">
@@ -75,14 +75,14 @@ const PricingCard: React.FC<{
       
       <p className="text-4xl font-bold text-gray-900 dark:text-white mt-4">
         {price}
-        {!isEnterprise && <span className="text-lg font-medium text-gray-500 dark:text-gray-400">/mo</span>}
+        {!isEnterprise && <span className="text-lg font-medium dark:text-gray-500 text-gray-400">/mo</span>}
       </p>
       
       <p className="mt-2 text-gray-500 dark:text-gray-400">{description}</p>
       
       <ul className="mt-6 space-y-4 flex-1">
         {features.map((feature, index) => (
-          <li key={index} className="flex items-center gap-2">
+          <li key={index} className="flex items-center gap-2 text-white">
 <span className="material-symbols-outlined text-green-500 text-lg">check_circle</span>
             <span>{feature}</span>
           </li>

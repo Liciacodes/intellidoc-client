@@ -10,7 +10,7 @@ import Footer from '../components/layout/Footer';
 
 const LandingPage: React.FC = () => {
   return (
-    <div className="dark bg-background-light dark:bg-background-dark font-display">
+    <div className="dark bg-background-light dark:bg-background-dark font-display" >
       <div className="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
         <div className="layout-container flex h-full grow flex-col">
           {/* Header */}
