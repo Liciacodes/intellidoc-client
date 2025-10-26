@@ -1,7 +1,7 @@
 import Button from "../ui/Button";
 import LogoIcon from "../ui/LogoIcon";
 import NavLink from "../ui/NavLink";
-import ThemeToggle from "../ui/ThemeToggler";
+
 
 const Header: React.FC = () => {
   return (
