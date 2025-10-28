@@ -56,10 +56,10 @@ const PricingCard: React.FC<{
   const isEnterprise = name === 'Enterprise';
   
   return (
-    <div className={`border-2 rounded-xl p-8 flex flex-col relative ${
+    <div className={` rounded-xl p-8 flex flex-col relative ${
       popular 
-        ? 'border border-primary' 
-        : 'dark:border-gray-200 border-gray-800'
+        ? 'border-2 border-primary' 
+        : 'border dark:border-gray-200 border-gray-800'
     }`}>
       {popular && (
         <div className="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 px-3 py-1 bg-primary text-white text-sm font-semibold rounded-full">

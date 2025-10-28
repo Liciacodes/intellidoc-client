@@ -10,4 +10,18 @@
   --color-background-dark: #101922;
 
   --font-display: "Inter", sans-serif;
+
+
+  --color-dashboard-primary: #4A90E2;
+  --color-dashboard-secondary: #F4F6F8;
+  --color-dashboard-accent: #50E3C2;
+  --color-dashboard-bg-light: #FFFFFF;
+  --color-dashboard-text-light: #333333;
+  --color-dashboard-text-dark: #F4F6F8;
+  --color-dashboard-text-secondary-light: #666666;
+  --color-dashboard-text-secondary-dark: #9dabb9;
+  --color-dashboard-sidebar-dark: #1a242f;
+  --color-dashboard-card-dark: #283039;
 }
+
+

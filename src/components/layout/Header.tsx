@@ -1,9 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import Button from "../ui/Button";
 import LogoIcon from "../ui/LogoIcon";
 import NavLink from "../ui/NavLink";
 
 
 const Header: React.FC = () => {
+  const navigate = useNavigate()
   return (
     <header
       className="
@@ -37,8 +39,8 @@ const Header: React.FC = () => {
           {/* Right Section */}
           <div className="flex items-center gap-3">
             {/* <ThemeToggle /> */}
-            <Button variant="primary">Sign Up</Button>
-            <Button variant="secondary">Log In</Button>
+            <Button variant="primary" onClick={() => navigate('/register')}>Sign Up</Button>
+            <Button variant="secondary" onClick={() => navigate('/login')}>Log In</Button>
           </div>
         </div>
       </div>

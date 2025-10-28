@@ -1,12 +1,12 @@
 import React from 'react';
 
-import Header from '../components/layout/Header';
-import HeroSection from '../components/landing/Hero';
-import FeaturesSection from '../components/landing/FeaturesSection';
-import HowItWorksSection from '../components/landing/HowItsWorks';
-import TestimonialsSection from '../components/landing/TestimonialsSection';
-import PricingSection from '../components/landing/PricingSection';
-import Footer from '../components/layout/Footer';
+import Header from '../../components/layout/Header';
+import HeroSection from '../../components/landing/Hero';
+import FeaturesSection from '../../components/landing/FeaturesSection';
+import HowItWorksSection from '../../components/landing/HowItsWorks';
+import TestimonialsSection from '../../components/landing/TestimonialsSection';
+import PricingSection from '../../components/landing/PricingSection';
+import Footer from '../../components/layout/Footer';
 
 const LandingPage: React.FC = () => {
   return (
