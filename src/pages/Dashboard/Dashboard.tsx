@@ -1,4 +1,4 @@
-import DashboardLayout from "../../components/layout/DashboardLayout";
+
 
 const Dashboard: React.FC = () => {
   // Document cards data with proper color classes
@@ -52,7 +52,7 @@ const Dashboard: React.FC = () => {
   ];
 
   return (
-    <DashboardLayout>
+   
       <div className="max-w-7xl mx-auto">
         {/* Page Heading */}
         <div className="flex flex-wrap justify-between gap-4 mb-8">
@@ -164,7 +164,7 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
       </div>
-    </DashboardLayout>
+    
   );
 };
 

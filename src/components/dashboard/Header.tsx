@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 const Header: React.FC = () => {
 // useEffect(() => {
 //     document.documentElement.classList.add("dark"); 
@@ -6,7 +8,7 @@ const Header: React.FC = () => {
 //     };
 
 // });
-
+const navigate = useNavigate()
   return (
     <header className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 px-8 py-4">
       <label className="flex flex-col min-w-40 w-1/3 max-w-lg">
@@ -28,7 +30,8 @@ const Header: React.FC = () => {
           <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-dashboard-accent"></span>
         </button>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3"
+        onClick={() => navigate('/dashboard/profile') }>
           <img
             alt="User avatar"
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgzlhPYlTgfHGbgfI0aOy6ZZm2pLt4SA0OwQLBiFl3HRoOXhL_hKp1Jw5H7e1XXSg9Zawje00OKMDhanKKzH7Bs-IFPmxTCouiLfq_L4qprsc2TbkG3xHayD9lTbiXh0L7IPJ6vLSgDv691avtCk3QhnsGZPkaQ_qTvmZHERdutmc4m1xh0sevaq47vnK1_CLgCaqL8ssL5X8LtKHYEddMFv5LyUFNIRTuKrE0gCQ1giS7wEYakc2iOhIRKfw2As5wuJoYvIuFyk6G"

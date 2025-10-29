@@ -1,11 +1,10 @@
 import Sidebar from "../dashboard/Sidebar";
 import Header from "../dashboard/Header";
+import { Outlet } from "react-router-dom";
 
-interface DashboardLayoutProps {
-  children: React.ReactNode;
-}
 
-const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
+
+const DashboardLayout: React.FC = () => {
   // Apply dark mode class when layout mounts
 //   useEffect(() => {
 //     document.documentElement.classList.add("dark");
@@ -23,7 +22,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       <main className="flex-1 flex flex-col overflow-hidden">
         <Header />
         <div className="flex-1 overflow-y-auto p-8 bg-dashboard-secondary dark:bg-background-dark/50">
-          {children}
+      <Outlet/>
         </div>
       </main>
     </div>
