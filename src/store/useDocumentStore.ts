@@ -6,6 +6,7 @@ export interface UploadedDocument {
   size: number;
   type: string;
   lastModified: number;
+  uploadedAt: number;
   file: File;
 }
 
@@ -27,6 +28,7 @@ export const useDocumentStore = create<DocumentStore>((set) => ({
         size: file.size,
         type: file.type,
         lastModified: file.lastModified,
+        uploadedAt: Date.now(),
         file,
       }));
 
