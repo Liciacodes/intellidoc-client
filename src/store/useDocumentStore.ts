@@ -1,45 +1,53 @@
 import { create } from "zustand";
 
-// Define the document type
+// Match your Prisma Document model
 export interface UploadedDocument {
-  name: string;
-  size: number;
-  type: string;
-  lastModified: number;
-  uploadedAt: number;
-  file: File;
+  id: string;
+  title: string;           // From Prisma
+  fileUrl: string;         // From Prisma
+  fileType: string;        // From Prisma
+  textContent?: string;    // From Prisma (optional for frontend)
+  uploadedAt: string; 
+  size: number     // From Prisma (as ISO string)
+          // From Prisma
 }
 
-// Define the state shape
 interface DocumentStore {
   documents: UploadedDocument[];
-  addDocuments: (newDocs: File[]) => void;
-  removeDocument: (name: string) => void;
+  searchQuery: string;
+  filterType: string;
+  sortOption: string;
+  setSearchQuery: (query: string) => void;
+  setFilterType: (type: string) => void;
+  setSortOption: (option: string) => void;
+  addDocuments: (newDocs: UploadedDocument[]) => void;
+  removeDocument: (id: string) => void;
   clearDocuments: () => void;
 }
 
 export const useDocumentStore = create<DocumentStore>((set) => ({
   documents: [],
+  searchQuery: "",
+  filterType: "all",
+  sortOption: 'newest',
+  
+  setFilterType: (type: string) => set({ filterType: type }),
+  setSortOption: (option: string) => set({ sortOption: option }),
+  setSearchQuery: (query: string) => set({ searchQuery: query }),
 
   addDocuments: (newDocs) =>
     set((state) => {
-      const formattedDocs = newDocs.map((file) => ({
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        lastModified: file.lastModified,
-        uploadedAt: Date.now(),
-        file,
-      }));
-
+      const existingIds = new Set(state.documents.map(doc => doc.id));
+      const uniqueNewDocs = newDocs.filter(doc => !existingIds.has(doc.id));
+      
       return {
-        documents: [...state.documents, ...formattedDocs],
+        documents: [...state.documents, ...uniqueNewDocs],
       };
     }),
 
-  removeDocument: (name) =>
+  removeDocument: (id) =>
     set((state) => ({
-      documents: state.documents.filter((doc) => doc.name !== name),
+      documents: state.documents.filter((doc) => doc.id !== id),
     })),
 
   clearDocuments: () => set({ documents: [] }),

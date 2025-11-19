@@ -53,7 +53,7 @@ const Sidebar: React.FC = () => {
           <p className="text-dashboard-text-secondary-light dark:text-dashboard-text-secondary-dark text-sm text-center mb-4">
             Get more storage and advanced features.
           </p>
-          <button className="w-full bg-dashboard-primary text-white py-2 px-4 rounded-lg text-sm font-semibold hover:bg-dashboard-primary/90 transition-colors">
+          <button disabled className="w-full bg-dashboard-primary text-white py-2 px-4 rounded-lg text-sm font-semibold hover:bg-dashboard-primary/90 transition-colors disabled:cursor-not-allowed">
             Upgrade Now
           </button>
         </div>

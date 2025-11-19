@@ -1,14 +1,19 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDocumentStore } from "../../store/useDocumentStore";
 
 const Header: React.FC = () => {
-// useEffect(() => {
-//     document.documentElement.classList.add("dark"); 
-//      return () => {
-//       document.documentElement.classList.remove("dark");
-//     };
+const {searchQuery, setSearchQuery} = useDocumentStore()
 
-// });
 const navigate = useNavigate()
+const location = useLocation()
+
+const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const query = e.target.value;
+  setSearchQuery(query);
+  if (query && location.pathname !== '/dashboard/my-document') {
+    navigate('/dashboard/my-document')
+  }
+}
   return (
     <header className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 px-8 py-4">
       <label className="flex flex-col min-w-40 w-1/3 max-w-lg">
@@ -20,6 +25,8 @@ const navigate = useNavigate()
             type="text"
             placeholder="Search documents..."
             className="form-input flex w-full rounded-r-lg text-dashboard-text-light dark:text-dashboard-text-dark focus:outline-0 focus:ring-2 focus:ring-dashboard-primary/50 border-none bg-dashboard-secondary dark:bg-dashboard-card-dark h-full placeholder:text-dashboard-text-secondary-light dark:placeholder:text-dashboard-text-secondary-dark px-4 text-sm"
+            value={searchQuery}
+            onChange={handleSearchChange}
           />
         </div>
       </label>

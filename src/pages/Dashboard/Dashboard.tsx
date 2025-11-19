@@ -1,9 +1,9 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDocumentStore } from "../../store/useDocumentStore";
 
 interface UploadedFile {
   id: string;
-  name: string;
+  title: string;
   size: number;
   type: string;
   file: File;
@@ -12,8 +12,35 @@ interface UploadedFile {
 const Dashboard: React.FC = () => {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { addDocuments, documents: storedDocuments } = useDocumentStore();
+
+  useEffect(() => {
+    const fetchRecentDocument = async () => {
+      try {
+        setIsLoading(true);
+        console.log('Fetching recent documents for dashboard');
+
+        const response = await fetch('http://localhost:5000/api/documents');
+
+        if (response.ok) {
+          const docs = await response.json();
+          addDocuments(docs);
+        } else {
+          console.log('Failed to fetch document');
+        }
+      } catch (error) {
+        console.log('Error fetching documents', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchRecentDocument();
+  }, [addDocuments]); // Added addDocuments dependency
+
+  console.log('Stored documents:', storedDocuments);
 
   const aiTools = [
     {
@@ -39,6 +66,35 @@ const Dashboard: React.FC = () => {
     },
   ];
 
+  const uploadFileToBackend = async (file: File, title: string) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("title", title);
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/documents/uploads",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to upload file");
+      }
+
+      const result = await response.json();
+      console.log("File uploaded successfully:", result);
+      return result;
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      alert(`Error uploading ${file.name}: ${error}`);
+      return null;
+    }
+  };
+
   const validateFile = (file: File): boolean => {
     const allowedTypes = [
       "application/pdf",
@@ -57,7 +113,7 @@ const Dashboard: React.FC = () => {
     return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + " " + sizes[i];
   };
 
-  const handleFiles = (files: FileList | null) => {
+  const handleFiles = async (files: FileList | null) => {
     if (!files) return;
 
     const validFiles: File[] = [];
@@ -68,7 +124,7 @@ const Dashboard: React.FC = () => {
         validFiles.push(file);
         newLocalFiles.push({
           id: Math.random().toString(36).substr(2, 9),
-          name: file.name,
+          title: file.name,
           size: file.size,
           type: file.type,
           file: file,
@@ -81,9 +137,13 @@ const Dashboard: React.FC = () => {
     // Add to local state for immediate display in upload list
     setUploadedFiles((prev) => [...prev, ...newLocalFiles]);
 
-    // Add to Zustand store for global access (My Documents page)
-    if (validFiles.length > 0) {
-      addDocuments(validFiles);
+    for (const file of validFiles) {
+      const uploadedDoc = await uploadFileToBackend(file, file.name); // Fixed: pass file.name instead of userId
+
+      if (uploadedDoc) {
+        addDocuments([uploadedDoc]);
+        console.log('Backend response:', uploadedDoc);
+      }
     }
   };
 
@@ -147,36 +207,52 @@ const Dashboard: React.FC = () => {
             <h2 className="text-dashboard-text-light dark:text-dashboard-text-dark text-xl font-bold mb-4">
               Your Recent Documents
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {storedDocuments.length === 0 ? (
+            
+            {isLoading ? (
+              <div className="flex justify-center items-center py-8">
                 <p className="text-dashboard-text-secondary-light dark:text-dashboard-text-secondary-dark">
-                  No recent documents uploaded yet.
+                  Loading documents...
                 </p>
-              ) : (
-                storedDocuments.map((doc) => {
-                  // Determine icon & colors based on file extension
+              </div>
+            ) : storedDocuments.length === 0 ? (
+              <p className="text-dashboard-text-secondary-light dark:text-dashboard-text-secondary-dark">
+                No recent documents uploaded yet.
+              </p>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {storedDocuments.slice(0, 4).map((doc) => {
                   let icon = "description";
                   let bgColor = "bg-dashboard-primary/10";
                   let textColor = "text-dashboard-primary";
 
-                  if (doc.name.endsWith(".pdf")) {
+                  if (doc.fileType === "application/pdf") {
                     icon = "picture_as_pdf";
                     bgColor = "bg-red-500/10";
                     textColor = "text-red-500";
-                  } else if (doc.name.endsWith(".txt")) {
+                  } else if (doc.fileType === "text/plain") {
                     icon = "article";
                     bgColor = "bg-gray-500/10";
                     textColor = "text-gray-500";
+                  } else if (
+                    doc.fileType ===
+                      "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+                    doc.fileType === "application/msword"
+                  ) {
+                    icon = "description";
+                    bgColor = "bg-blue-500/10";
+                    textColor = "text-blue-500";
                   }
 
                   return (
                     <div
-                      key={doc.name}
+                      key={doc.id}
                       className="bg-dashboard-bg-light dark:bg-dashboard-sidebar-dark p-5 rounded-xl border border-gray-200 dark:border-gray-700"
                     >
                       <div className="flex items-start justify-between mb-4">
                         <div className={`${bgColor} p-2 rounded-lg`}>
-                          <span className={`material-symbols-outlined ${textColor}`}>
+                          <span
+                            className={`material-symbols-outlined ${textColor}`}
+                          >
                             {icon}
                           </span>
                         </div>
@@ -187,7 +263,7 @@ const Dashboard: React.FC = () => {
                         </button>
                       </div>
                       <h3 className="text-dashboard-text-light dark:text-dashboard-text-dark font-semibold mb-1 truncate">
-                        {doc.name}
+                        {doc.title}
                       </h3>
                       <p className="text-dashboard-text-secondary-light dark:text-dashboard-text-secondary-dark text-sm">
                         Uploaded:{" "}
@@ -197,9 +273,9 @@ const Dashboard: React.FC = () => {
                       </p>
                     </div>
                   );
-                })
-              )}
-            </div>
+                })}
+              </div>
+            )}
 
             {/* AI Quick Actions */}
             <h2 className="text-dashboard-text-light dark:text-dashboard-text-dark text-xl font-bold mt-10 mb-4">
@@ -289,7 +365,7 @@ const Dashboard: React.FC = () => {
                       >
                         <div className="flex flex-col truncate">
                           <span className="truncate text-dashboard-text-secondary-light dark:text-dashboard-text-secondary-dark">
-                            {file.name}
+                            {file.title}
                           </span>
                           <span className="text-xs text-dashboard-text-secondary-light dark:text-dashboard-text-secondary-dark">
                             {formatFileSize(file.size)}
