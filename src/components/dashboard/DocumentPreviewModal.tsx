@@ -10,37 +10,45 @@ interface DocumentPreviewModalProps {
 const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({
   document,
   onClose,
-  isOpen
+  isOpen,
 }) => {
-     if (!isOpen || !document) return null;
+  if (!isOpen || !document) return null;
   if (!document) return null;
-  console.log("Previewing:", document);
-
-
-  const fileURL = URL.createObjectURL(document.file);
+  const { title, fileUrl, fileType, } = document;
 
   const renderPreview = () => {
-  if (document.type.includes("image")) {
-    return <img src={fileURL} alt={document.name} className="max-h-[70vh] mx-auto rounded-lg" />;
-  } else if (document.type.includes("pdf")) {
-    return <iframe src={fileURL} title={document.name} className="w-full h-[70vh] rounded-lg" />;
-  } else if (document.type.includes("text")) {
-    return (
-      <iframe
-        src={fileURL}
-        title={document.name}
-        className="w-full h-[70vh] rounded-lg bg-white"
-      />
-    );
-  } else {
-    return (
-      <p className="text-center text-dashboard-text-secondary-light dark:text-dashboard-text-secondary-dark">
-        No preview available for this file type.
-      </p>
-    );
-  }
-};
-
+    if (fileType.includes("image")) {
+      return (
+        <img
+          src={fileUrl}
+          alt={title}
+          className="max-h-[70vh] mx-auto rounded-lg"
+        />
+      );
+    } else if (fileType.includes("pdf")) {
+      return (
+        <iframe
+          src={fileUrl}
+          title={title}
+          className="w-full h-[70vh] rounded-lg"
+        />
+      );
+    } else if (fileType.includes("text")) {
+      return (
+        <iframe
+          src={fileUrl}
+          title={title}
+          className="w-full h-[70vh] rounded-lg bg-white"
+        />
+      );
+    } else {
+      return (
+        <p className="text-center text-dashboard-text-secondary-light dark:text-dashboard-text-secondary-dark">
+          No preview available for this file type.
+        </p>
+      );
+    }
+  };
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
@@ -53,18 +61,20 @@ const DocumentPreviewModal: React.FC<DocumentPreviewModalProps> = ({
         </button>
 
         <h2 className="text-xl font-semibold text-dashboard-text-light dark:text-dashboard-text-dark mb-4">
-          {document.name}
+          {title}
         </h2>
 
         <div className="mb-6">{renderPreview()}</div>
 
         <div className="flex justify-end gap-3">
           <a
-            href={fileURL}
-            download={document.name}
+            href={fileUrl}
+            download={title}
             className="flex items-center gap-2 bg-dashboard-primary text-white px-4 py-2 rounded-lg hover:bg-dashboard-primary/80 transition"
           >
-            <span className="material-symbols-outlined text-base">download</span>
+            <span className="material-symbols-outlined text-base">
+              download
+            </span>
             Download
           </a>
           <button

@@ -27,7 +27,7 @@ const MyDocument: React.FC = () => {
 
     fetchDocuments();
   }, [addDocuments]); 
-  
+
   // Filter documents based on search query
   let filteredDocuments = documents.filter((doc) =>
     doc.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -51,10 +51,25 @@ if (sortOption === "newest") {
     filteredDocuments.sort((a, b) => b.title.localeCompare(a.title));
   }
 
-  const handleDelete = (id: string, title: string) => {
-    if (window.confirm(`Are you sure you want to delete "${title}"?`)) {
-      removeDocument(id);
-    }
+  const handleDelete = async(id: string, title: string) => {
+      const confirmDelete = window.confirm(`Are you sure you want to delete "${title}"?`);
+  if (!confirmDelete) return;
+  try {
+const response = await fetch(`http://localhost:5000/api/documents/${id}`,
+  {method: "DELETE"}
+)
+
+if(response.ok) {
+  removeDocument(id)
+  alert('document deleted sucessfully')
+} else {
+  alert('Failed to delte the document')
+}
+  }
+  catch(error: any) {
+console.error('Delete error', error)
+alert('Error deleting document')
+  }
   };
 
   const handleView = (doc: UploadedDocument) => {
@@ -63,13 +78,13 @@ if (sortOption === "newest") {
   };
 
   const handleDownload = (doc: UploadedDocument) => {
-    const a = document.createElement("a");
-    a.href = doc.fileUrl
-    a.download = doc.title;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-   
+    // const a = document.createElement("a");
+    // a.href = doc.fileUrl
+    // a.download = doc.title;
+    // document.body.appendChild(a);
+    // a.click();
+    // document.body.removeChild(a);
+    window.open(doc.fileUrl, "_blank");
   };
 
   // Helper function to get file icon based on type

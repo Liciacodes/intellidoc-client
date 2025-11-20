@@ -14,6 +14,7 @@ export default function Register() {
   });
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [error, setError] = useState(""); // Add error state
 
   // ✅ Enable dark mode by default
   useEffect(() => {
@@ -29,12 +30,44 @@ export default function Register() {
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
+    setError(""); // Clear error when user starts typing
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setError(""); // Clear previous errors
     console.log("Form data submitted:", formData);
-    // 🔗 connect to backend API here later
+
+    if (!formData.terms) {
+      setError("You must agree to the Terms of Service and Privacy Policy");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        setError(errorData.error || "Signup failed. Please try again.");
+        return;
+      }
+
+      const data = await response.json()
+       alert(`User created successfully! User ID: ${data.userId}`);
+       window.location.href = '/login'
+    } catch (error) {
+      setError("Something went wrong. Please try again.");
+      console.error("Registration error:", error);
+    }
   };
 
   return (
@@ -49,6 +82,18 @@ export default function Register() {
             Create your IntelliDoc account
           </p>
         </div>
+
+        {/* Error Message Display */}
+        {error && (
+          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+            <div className="flex items-center gap-2 text-red-800 dark:text-red-200">
+              <span className="material-symbols-outlined text-sm">
+                error
+              </span>
+              <span className="text-sm font-medium">{error}</span>
+            </div>
+          </div>
+        )}
 
         {/* Social login buttons */}
         <div className="flex flex-col space-y-3">
@@ -96,16 +141,16 @@ export default function Register() {
               Email Address
             </label>
             <div className="mt-2">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                value={formData.email}
-                onChange={handleChange}
-                className="block w-full rounded-lg border-0 bg-white/5 py-2.5 text-white shadow-sm ring-1 ring-inset ring-gray-700 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
-              />
+             <input
+  type="email"
+  name="email"
+  placeholder="Enter your email"
+  value={formData.email}
+  onChange={handleChange}
+  className="w-full rounded-lg border border-[#3b4754] bg-background-light dark:bg-[#1c2127]
+  text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400
+  px-3 py-2.5 outline-none"
+/>
             </div>
           </div>
 
@@ -119,15 +164,15 @@ export default function Register() {
             </label>
             <div className="relative mt-2">
               <input
-                id="password"
-                name="password"
-                type={showPassword ? "text" : "password"}
-                autoComplete="current-password"
-                required
-                value={formData.password}
-                onChange={handleChange}
-                className="block w-full rounded-lg border-0 bg-white/5 py-2.5 pr-10 text-white shadow-sm ring-1 ring-inset ring-gray-700 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
-              />
+  type={showPassword ? "text" : "password"}
+  name="password"
+  placeholder="Enter your password"
+  value={formData.password}
+  onChange={handleChange}
+  className="w-full rounded-lg border border-[#3b4754] bg-background-light dark:bg-[#1c2127]
+  text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400
+  px-3 py-2.5 outline-none"
+/>
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
@@ -150,10 +195,7 @@ export default function Register() {
               onChange={handleChange}
               className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
             />
-            <label
-              htmlFor="terms"
-              className="ml-2 block text-sm text-gray-300"
-            >
+            <label htmlFor="terms" className="ml-2 block text-sm text-gray-300">
               I agree to the{" "}
               <a href="#" className="text-primary hover:underline">
                 Terms of Service
@@ -169,7 +211,7 @@ export default function Register() {
           <div>
             <button
               type="submit"
-              className="flex w-full justify-center rounded-lg bg-primary px-3 py-2.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-50"
+              className="flex w-full justify-center rounded-lg bg-primary px-3 py-2.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary/90  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-50"
             >
               Create Account
             </button>
