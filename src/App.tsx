@@ -12,6 +12,7 @@ import DashboardLayout from './components/layout/DashboardLayout'
 import AiTools from './pages/Dashboard/AiTools'
 import Settings from './pages/Dashboard/Settings/Settings'
 import ProfileSettings from './pages/Dashboard/Settings/ProfileSettings'
+import ResetPassword from './pages/Auth/ResetPassword'
 
 function App() {
  
@@ -24,6 +25,7 @@ function App() {
         <Route path='/register' element={<Register/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/forgot-password' element={<ForgotPassword/>}/>
+        <Route path='/reset-password' element={<ResetPassword/>}/>
         
         <Route path='/dashboard' element={<DashboardLayout/>}>
         <Route index element={<Dashboard/>}/>
