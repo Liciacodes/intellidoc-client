@@ -1,7 +1,11 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Button from "../ui/Button";
+import { useUserStore } from "../../store/useUserStore";
 
 const Sidebar: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { logout } =  useUserStore()
 
   const navItems = [
     { icon: "dashboard", label: "Dashboard", path: "/dashboard" },
@@ -10,19 +14,29 @@ const Sidebar: React.FC = () => {
     { icon: "settings", label: "Settings", path: "/dashboard/settings" },
   ];
 
+  const handleLogout = () => {
+    logout();
+navigate('/login');
+  }
+
+
   return (
     <aside className="w-64 bg-dashboard-bg-light dark:bg-dashboard-sidebar-dark flex flex-col border-r border-gray-200 dark:border-gray-700">
       <div className="flex items-center gap-3 p-4 border-b border-gray-200 dark:border-gray-700">
         <div className="bg-dashboard-primary p-2 rounded-xl">
-          <span className="material-symbols-outlined text-white">auto_awesome</span>
+          <span className="material-symbols-outlined text-white">
+            auto_awesome
+          </span>
         </div>
-        <h1 className="text-dashboard-text-light dark:text-dashboard-text-dark text-xl font-bold">IntelliDoc</h1>
+        <h1 className="text-dashboard-text-light dark:text-dashboard-text-dark text-xl font-bold">
+          IntelliDoc
+        </h1>
       </div>
 
       <nav className="flex flex-col gap-2 p-4">
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
-          
+
           return (
             <Link
               key={item.label}
@@ -41,7 +55,14 @@ const Sidebar: React.FC = () => {
       </nav>
 
       <div className="mt-auto p-4">
-        <div className="flex flex-col items-center justify-center p-6 rounded-xl bg-dashboard-secondary dark:bg-dashboard-card-dark">
+        <Button
+          variant="special"
+          onClick={() => handleLogout()}
+        >
+          Log Out
+        </Button>
+
+        {/* <div className="flex flex-col items-center justify-center p-6 rounded-xl bg-dashboard-secondary dark:bg-dashboard-card-dark">
           <div className="bg-dashboard-primary/20 p-3 rounded-full mb-4">
             <span className="material-symbols-outlined text-dashboard-primary text-3xl!">
               cloud_upload
@@ -56,7 +77,7 @@ const Sidebar: React.FC = () => {
           <button disabled className="w-full bg-dashboard-primary text-white py-2 px-4 rounded-lg text-sm font-semibold hover:bg-dashboard-primary/90 transition-colors disabled:cursor-not-allowed">
             Upgrade Now
           </button>
-        </div>
+        </div> */}
       </div>
     </aside>
   );

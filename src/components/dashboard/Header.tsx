@@ -1,11 +1,14 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDocumentStore } from "../../store/useDocumentStore";
+import { useUserStore } from "../../store/useUserStore";
 
 const Header: React.FC = () => {
-const {searchQuery, setSearchQuery} = useDocumentStore()
+const {searchQuery, setSearchQuery} = useDocumentStore();
+const {user} = useUserStore()
 
 const navigate = useNavigate()
 const location = useLocation()
+
 
 const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   const query = e.target.value;
@@ -45,9 +48,9 @@ const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             className="rounded-full size-10"
           />
           <div className="text-sm">
-            <p className="text-dashboard-text-light dark:text-dashboard-text-dark font-medium">Olivia Rhye</p>
+            <p className="text-dashboard-text-light dark:text-dashboard-text-dark font-medium">{user?.name || 'Olivia'}</p>
             <p className="text-dashboard-text-secondary-light dark:text-dashboard-text-secondary-dark">
-              olivia@intellidoc.com
+             {user?.email}
             </p>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUserStore } from "../../store/useUserStore";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -7,6 +8,8 @@ export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const {login} = useUserStore()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -34,8 +37,15 @@ export default function Login() {
       
       await new Promise((r) => setTimeout(r, 200));
 
-      await response.json();
+      const data = await response.json();
+    
 
+
+      login(data.token, {
+        id: data.user.id,
+        email: data.user.email,
+        name: data.user.name
+      })
       navigate("/dashboard");
     } catch (error) {
       setError("Something went wrong. Please try again.");

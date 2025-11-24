@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useDocumentStore } from "../../store/useDocumentStore";
+import { useUserStore } from "../../store/useUserStore";
 
 interface UploadedFile {
   id: string;
@@ -15,6 +16,9 @@ const Dashboard: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { addDocuments, documents: storedDocuments } = useDocumentStore();
+
+  const {user} = useUserStore()
+
 
   useEffect(() => {
     const fetchRecentDocument = async () => {
@@ -192,7 +196,7 @@ const Dashboard: React.FC = () => {
         <div className="flex flex-wrap justify-between gap-4 mb-8">
           <div className="flex flex-col gap-1">
             <p className="text-dashboard-text-light dark:text-dashboard-text-dark text-3xl font-bold leading-tight">
-              Welcome back, Olivia!
+              Welcome back, {user?.name || 'Olivia'}!
             </p>
             <p className="text-dashboard-text-secondary-light dark:text-dashboard-text-secondary-dark text-base font-normal">
               Here's a summary of your recent activity and tools.

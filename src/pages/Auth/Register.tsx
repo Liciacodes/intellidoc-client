@@ -1,6 +1,7 @@
 import { useState, useEffect, type ChangeEvent, type FormEvent } from "react";
 
 interface FormData {
+  name: string;
   email: string;
   password: string;
   terms: boolean;
@@ -8,6 +9,7 @@ interface FormData {
 
 export default function Register() {
   const [formData, setFormData] = useState<FormData>({
+    name: '',
     email: "",
     password: "",
     terms: false,
@@ -30,12 +32,12 @@ export default function Register() {
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
-    setError(""); // Clear error when user starts typing
+    setError(""); 
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setError(""); // Clear previous errors
+    setError(""); 
     console.log("Form data submitted:", formData);
 
     if (!formData.terms) {
@@ -50,20 +52,21 @@ export default function Register() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          name: formData.name,
           email: formData.email,
           password: formData.password,
         }),
       });
 
       if (!response.ok) {
-        const errorData = await response.json()
+        const errorData = await response.json();
         setError(errorData.error || "Signup failed. Please try again.");
         return;
       }
 
-      const data = await response.json()
-       alert(`User created successfully! User ID: ${data.userId}`);
-       window.location.href = '/login'
+      const data = await response.json();
+      alert(`User created successfully! User ID: ${data.userId}`);
+      window.location.href = "/login";
     } catch (error) {
       setError("Something went wrong. Please try again.");
       console.error("Registration error:", error);
@@ -87,9 +90,7 @@ export default function Register() {
         {error && (
           <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
             <div className="flex items-center gap-2 text-red-800 dark:text-red-200">
-              <span className="material-symbols-outlined text-sm">
-                error
-              </span>
+              <span className="material-symbols-outlined text-sm">error</span>
               <span className="text-sm font-medium">{error}</span>
             </div>
           </div>
@@ -135,22 +136,42 @@ export default function Register() {
           {/* Email */}
           <div>
             <label
+              htmlFor="name"
+              className="block text-sm font-medium leading-6 text-gray-300"
+            >
+             Name
+            </label>
+            <div className="mt-2">
+              <input
+                type="text"
+                name="name"
+                placeholder="Enter your name"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full rounded-lg border border-[#3b4754] bg-background-light dark:bg-[#1c2127]
+  text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400
+  px-3 py-2.5 outline-none"
+              />
+            </div>
+          </div>
+          <div>
+            <label
               htmlFor="email"
               className="block text-sm font-medium leading-6 text-gray-300"
             >
               Email Address
             </label>
             <div className="mt-2">
-             <input
-  type="email"
-  name="email"
-  placeholder="Enter your email"
-  value={formData.email}
-  onChange={handleChange}
-  className="w-full rounded-lg border border-[#3b4754] bg-background-light dark:bg-[#1c2127]
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full rounded-lg border border-[#3b4754] bg-background-light dark:bg-[#1c2127]
   text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400
   px-3 py-2.5 outline-none"
-/>
+              />
             </div>
           </div>
 
@@ -164,15 +185,15 @@ export default function Register() {
             </label>
             <div className="relative mt-2">
               <input
-  type={showPassword ? "text" : "password"}
-  name="password"
-  placeholder="Enter your password"
-  value={formData.password}
-  onChange={handleChange}
-  className="w-full rounded-lg border border-[#3b4754] bg-background-light dark:bg-[#1c2127]
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Enter your password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full rounded-lg border border-[#3b4754] bg-background-light dark:bg-[#1c2127]
   text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400
   px-3 py-2.5 outline-none"
-/>
+              />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
