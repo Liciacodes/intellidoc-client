@@ -12,6 +12,8 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ documentId, onClose }) 
   const { documents } = useDocumentStore();
   const [documentContent, setDocumentContent] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
+  const [numPages, setNumPages] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const document = documents.find(doc => doc.id === documentId);
 
@@ -50,6 +52,12 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ documentId, onClose }) 
 
     fetchDocumentContent();
   }, [documentId, document]);
+
+  const isPDF = document?.fileType === 'application/pdf';
+
+  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
+    setNumPages(numPages);
+  };
 
   if (!document) {
     return (
@@ -90,10 +98,50 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ documentId, onClose }) 
             </div>
           ) : (
             <>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">{document.title}</h2>
-              <div className="text-gray-600 space-y-4 leading-relaxed whitespace-pre-wrap">
-                {documentContent}
-              </div>
+              <h2 className="text-xl font-bold text-gray-900 mb-6">{document.title}</h2>
+              
+              {isPDF ? (
+                <div className="space-y-4">
+                  {/* PDF Viewer Container */}
+                  <div className="border border-gray-300 rounded-lg overflow-hidden bg-gray-50 flex justify-center">
+                    <iframe
+                      src={`${document.fileUrl}#toolbar=0`}
+                      className="w-full h-96"
+                      title={document.title}
+                    />
+                  </div>
+
+                  {/* PDF Info */}
+                  <div className="text-sm text-gray-600 mt-4">
+                    <p>
+                      📄 PDF Document | 
+                      <a 
+                        href={document.fileUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline ml-2"
+                      >
+                        Open in new tab
+                      </a>
+                    </p>
+                  </div>
+
+                  {/* Extracted Text Preview */}
+                  {documentContent && !documentContent.includes("No text could be extracted") && (
+                    <div className="mt-8 border-t pt-6">
+                      <h3 className="font-semibold text-gray-900 mb-4">Extracted Text Preview</h3>
+                      <div className="text-gray-600 space-y-4 leading-relaxed whitespace-pre-wrap text-sm max-h-64 overflow-y-auto bg-gray-50 p-4 rounded-lg">
+                        {documentContent}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                /* Text File Content */
+                <div className="text-gray-600 space-y-4 leading-relaxed whitespace-pre-wrap">
+                  {documentContent}
+                </div>
+              )}
             </>
           )}
         </div>
