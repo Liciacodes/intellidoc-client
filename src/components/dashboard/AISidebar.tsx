@@ -1,5 +1,6 @@
 // components/document/AISidebar.tsx
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 
 interface AISidebarProps {
   documentId: string;
@@ -14,7 +15,9 @@ const AISidebar: React.FC<AISidebarProps> = ({ documentId, documentContent }) =>
 
   const generateSummary = async () => {
     if (!documentContent || documentContent.trim().length < 50) {
-      setError("This document doesn't have enough text content to summarize. Please upload a document with readable text.");
+      const errorMsg = "This document doesn't have enough text content to summarize. Please upload a document with readable text.";
+      setError(errorMsg);
+      toast.error(errorMsg, { duration: 4000 });
       return;
     }
 
@@ -53,7 +56,7 @@ const AISidebar: React.FC<AISidebarProps> = ({ documentId, documentContent }) =>
       console.error("Error generating summary:", error);
       const errorMessage = error.message || "Could not generate summary. Please check your API key and try again.";
       setError(errorMessage);
-      alert(errorMessage);
+      toast.error(errorMessage, { duration: 4000 });
     } finally {
       setIsGenerating(false);
     }
@@ -61,11 +64,25 @@ const AISidebar: React.FC<AISidebarProps> = ({ documentId, documentContent }) =>
 
   const handleCopySummary = () => {
     navigator.clipboard.writeText(summary);
-    alert("Summary copied to clipboard!");
+    toast.success('Copied!', {
+      duration: 1500,
+      position: 'bottom-right',
+      style: {
+        background: '#10B981', // Green background
+        color: '#fff',
+        fontWeight: 'bold',
+        marginRight: '30px',
+      },
+      iconTheme: {
+        primary: '#fff',
+        secondary: '#10B981',
+      },
+    });
   };
 
   const handleRegenerate = () => {
     setError('');
+    toast.loading('Regenerating...', { duration: 1000 });
     generateSummary();
   };
 
@@ -97,7 +114,10 @@ const AISidebar: React.FC<AISidebarProps> = ({ documentId, documentContent }) =>
 
           <div className="grid grid-cols-2 gap-3">
             <button
-              onClick={() => setActiveTool('qa')}
+              onClick={() => {
+                setActiveTool('qa');
+                toast('Coming soon!', { icon: '🚀' });
+              }}
               className="flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
             >
               <span className="material-symbols-outlined text-xl">forum</span>
@@ -105,7 +125,10 @@ const AISidebar: React.FC<AISidebarProps> = ({ documentId, documentContent }) =>
             </button>
 
             <button
-              onClick={() => setActiveTool('keypoints')}
+              onClick={() => {
+                setActiveTool('keypoints');
+                toast('Coming soon!', { icon: '📝' });
+              }}
               className="flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
             >
               <span className="material-symbols-outlined text-xl">checklist</span>
