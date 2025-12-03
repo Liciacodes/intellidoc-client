@@ -1,4 +1,3 @@
-// components/document/DocumentViewer.tsx
 import React, { useState, useEffect } from 'react';
 import { useDocumentStore } from '../../store/useDocumentStore';
 import AISidebar from './AISidebar';
@@ -125,16 +124,6 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ documentId, onClose }) 
                       </a>
                     </p>
                   </div>
-
-                  {/* Extracted Text Preview */}
-                  {documentContent && !documentContent.includes("No text could be extracted") && (
-                    <div className="mt-8 border-t pt-6">
-                      <h3 className="font-semibold text-gray-900 mb-4">Extracted Text Preview</h3>
-                      <div className="text-gray-600 space-y-4 leading-relaxed whitespace-pre-wrap text-sm max-h-64 overflow-y-auto bg-gray-50 p-4 rounded-lg">
-                        {documentContent}
-                      </div>
-                    </div>
-                  )}
                 </div>
               ) : (
                 /* Text File Content */

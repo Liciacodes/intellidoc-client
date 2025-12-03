@@ -1,6 +1,7 @@
 // components/document/AISidebar.tsx
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import QAComponent from './QAComponent';
 
 interface AISidebarProps {
   documentId: string;
@@ -114,10 +115,7 @@ const AISidebar: React.FC<AISidebarProps> = ({ documentId, documentContent }) =>
 
           <div className="grid grid-cols-2 gap-3">
             <button
-              onClick={() => {
-                setActiveTool('qa');
-                toast('Coming soon!', { icon: '🚀' });
-              }}
+              onClick={() => setActiveTool('qa')}
               className="flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
             >
               <span className="material-symbols-outlined text-xl">forum</span>
@@ -180,6 +178,40 @@ const AISidebar: React.FC<AISidebarProps> = ({ documentId, documentContent }) =>
             </div>
           )}
 
+          {/* Q&A PANEL */}
+          {activeTool === 'qa' && (
+            <div id="qa-panel">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-gray-900 text-base font-bold">Ask Questions</h3>
+                <span className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded">
+                  Beta
+                </span>
+              </div>
+              
+              <QAComponent 
+                documentId={documentId}
+                documentContent={documentContent}
+              />
+              
+              <div className="mt-4 pt-4 border-t border-gray-200">
+                <div className="flex items-center gap-2 text-xs text-gray-500">
+                  <span className="material-symbols-outlined text-sm">info</span>
+                  <p>Answers are based only on the document content</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* KEY POINTS PANEL (Coming Soon) */}
+          {activeTool === 'keypoints' && (
+            <div className="text-center py-8 text-gray-500">
+              <span className="material-symbols-outlined text-4xl mb-3 text-gray-300">
+                checklist
+              </span>
+              <p className="text-sm">Key Points feature coming soon!</p>
+            </div>
+          )}
+
           {/* Empty state */}
           {!activeTool && (
             <div className="text-center py-12 text-gray-500">
@@ -187,25 +219,6 @@ const AISidebar: React.FC<AISidebarProps> = ({ documentId, documentContent }) =>
                 auto_awesome
               </span>
               <p className="text-sm">Select an AI tool to get started</p>
-            </div>
-          )}
-
-          {/* Coming soon panels */}
-          {activeTool === 'qa' && (
-            <div className="text-center py-8 text-gray-500">
-              <span className="material-symbols-outlined text-4xl mb-3 text-gray-300">
-                forum
-              </span>
-              <p className="text-sm">Q&A feature coming soon!</p>
-            </div>
-          )}
-
-          {activeTool === 'keypoints' && (
-            <div className="text-center py-8 text-gray-500">
-              <span className="material-symbols-outlined text-4xl mb-3 text-gray-300">
-                checklist
-              </span>
-              <p className="text-sm">Key Points feature coming soon!</p>
             </div>
           )}
         </div>
