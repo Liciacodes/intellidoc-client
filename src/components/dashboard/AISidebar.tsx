@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import QAComponent from './QAComponent';
+import KeyPointsComponent from './KeyPointsComponent';
 
 interface AISidebarProps {
   documentId: string;
@@ -123,10 +124,7 @@ const AISidebar: React.FC<AISidebarProps> = ({ documentId, documentContent }) =>
             </button>
 
             <button
-              onClick={() => {
-                setActiveTool('keypoints');
-                toast('Coming soon!', { icon: '📝' });
-              }}
+              onClick={() => setActiveTool('keypoints')}
               className="flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
             >
               <span className="material-symbols-outlined text-xl">checklist</span>
@@ -202,14 +200,15 @@ const AISidebar: React.FC<AISidebarProps> = ({ documentId, documentContent }) =>
             </div>
           )}
 
-          {/* KEY POINTS PANEL (Coming Soon) */}
+          {/* KEY POINTS PANEL */}
           {activeTool === 'keypoints' && (
-            <div className="text-center py-8 text-gray-500">
-              <span className="material-symbols-outlined text-4xl mb-3 text-gray-300">
-                checklist
-              </span>
-              <p className="text-sm">Key Points feature coming soon!</p>
-            </div>
+         
+              
+              <KeyPointsComponent 
+                documentId={documentId}
+                documentContent={documentContent}
+              />
+            
           )}
 
           {/* Empty state */}
