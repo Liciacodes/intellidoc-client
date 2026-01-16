@@ -42,7 +42,7 @@ const Settings: React.FC = () => {
               Receive email alerts for document updates.
             </p>
             <label className="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" className="sr-only peer" />
+              <input disabled type="checkbox" className="disabled:opacity-50 sr-only peer" />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
             </label>
           </div>
@@ -57,7 +57,7 @@ const Settings: React.FC = () => {
             You are currently on the <strong>Free Plan</strong>. Upgrade to
             unlock more features.
           </p>
-          <button className="bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors">
+          <button disabled className="disabled:cursor-not-allowed bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors">
             Upgrade Now
           </button>
         </div>

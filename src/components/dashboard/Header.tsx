@@ -35,7 +35,7 @@ const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       </label>
 
       <div className="flex items-center gap-4">
-        <button className="relative flex items-center justify-center rounded-full h-10 w-10 text-dashboard-text-secondary-light dark:text-dashboard-text-secondary-dark hover:bg-gray-100 dark:hover:bg-gray-700/50">
+        <button disabled className="disabled:cursor-not-allowed relative flex items-center justify-center rounded-full h-10 w-10 text-dashboard-text-secondary-light dark:text-dashboard-text-secondary-dark hover:bg-gray-100 dark:hover:bg-gray-700/50">
           <span className="material-symbols-outlined">notifications</span>
           <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-dashboard-accent"></span>
         </button>
