@@ -87,11 +87,11 @@ const ProfileSettings: React.FC = () => {
 
   return (
     <div className="flex-1 overflow-y-auto bg-dashboard-secondary dark:bg-[#111418]/50 font-display">
-      <div className="max-w-7xl mx-auto p-8">
+      <div className="p-2 sm:p-8">
         {/* Header Section */}
         <div className="flex flex-wrap justify-between gap-4 mb-8">
           <div className="flex flex-col gap-1">
-            <p className="text-dashboard-text-light dark:text-dashboard-text-dark text-3xl font-bold leading-tight">
+            <p className="text-dashboard-text-light dark:text-dashboard-text-dark text-lg md:text-3xl font-bold leading-tight">
               Profile Settings
             </p>
             <p className="text-dashboard-text-secondary-light dark:text-dashboard-text-secondary-dark text-base font-normal">
@@ -105,7 +105,7 @@ const ProfileSettings: React.FC = () => {
 
       
         <div className="bg-dashboard-bg-light dark:bg-dashboard-sidebar-dark rounded-xl border border-gray-200 dark:border-gray-700 p-6 mb-8">
-          <h2 className="text-dashboard-text-light dark:text-dashboard-text-dark text-lg font-semibold mb-6">
+          <h2 className="text-dashboard-text-light dark:text-dashboard-text-dark text-lg md:text-3xl font-semibold mb-6">
             Personal Information
           </h2>
 

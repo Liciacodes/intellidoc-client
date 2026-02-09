@@ -1,15 +1,14 @@
 import { create } from "zustand";
 
-// Match your Prisma Document model
+
 export interface UploadedDocument {
   id: string;
-  title: string;           // From Prisma
-  fileUrl: string;         // From Prisma
-  fileType: string;        // From Prisma
-  textContent?: string;    // From Prisma (optional for frontend)
+  title: string;           
+  fileUrl: string;         
+  fileType: string;       
+  textContent?: string;    
   uploadedAt: string; 
-  size: number     // From Prisma (as ISO string)
-          // From Prisma
+  size: number    
 }
 
 interface DocumentStore {
