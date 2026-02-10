@@ -25,7 +25,7 @@ const Dashboard: React.FC = () => {
         setIsLoading(true);
         console.log('Fetching recent documents for dashboard');
 
-        const response = await fetch(createApiEndpoint('api/documents'), {
+        const response = await fetch(createApiEndpoint('documents'), {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }

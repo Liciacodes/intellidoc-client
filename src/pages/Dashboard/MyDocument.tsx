@@ -19,7 +19,7 @@ const MyDocument: React.FC = () => {
           console.error('No auth token found - user might not be logged in');
           return;
         }
-        const response = await fetch(createApiEndpoint('api/documents'), {
+        const response = await fetch(createApiEndpoint('documents'), {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -73,7 +73,7 @@ const MyDocument: React.FC = () => {
         alert('You need to be logged in to delete a document.');
         return;
       }
-      const response = await fetch(`http://localhost:5000/api/documents/${id}`, { 
+      const response = await fetch(createApiEndpoint(`api/documents/${id}`), { 
         method: "DELETE",
         headers: {
           'Authorization': `Bearer ${token}`
