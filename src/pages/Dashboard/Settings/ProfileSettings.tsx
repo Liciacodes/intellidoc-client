@@ -69,7 +69,7 @@ const ProfileSettings: React.FC = () => {
         return;
       }
 
-      const data = await response.json();
+       await response.json();
       setMessage("Password changed successfully!");
       
       // Clear password fields
