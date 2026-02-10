@@ -83,8 +83,8 @@ const Dashboard: React.FC = () => {
         alert('You need to be logged in to upload files.');
         return null;
       }
-      const response = await fetch(
-        "http://localhost:5000/api/documents/uploads",
+      const response = await fetch(createApiEndpoint("documents/uploads")
+        ,
         {
           method: "POST",
           headers: {
