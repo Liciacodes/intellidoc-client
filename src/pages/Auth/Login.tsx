@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../store/useUserStore";
+import { createApiEndpoint } from "../../config/api";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -21,7 +22,7 @@ export default function Login() {
     setLoading(true);
     setError("");
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
+      const response = await fetch(createApiEndpoint("auth/login"), {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify({ email: form.email, password: form.password }),

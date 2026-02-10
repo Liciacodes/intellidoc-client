@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { createApiEndpoint } from "../../config/api";
 
 const ResetPassword: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -42,7 +43,7 @@ const ResetPassword: React.FC = () => {
   }
 
   try {
-    const res = await fetch(`http://localhost:5000/api/auth/reset-password?token=${token}`, {
+    const res = await fetch(createApiEndpoint(`auth/reset-password?token=${token}`), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ newPassword }),

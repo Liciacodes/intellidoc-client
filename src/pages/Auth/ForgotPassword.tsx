@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { createApiEndpoint } from "../../config/api";
 
 const ForgotPassword: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -15,8 +16,8 @@ const ForgotPassword: React.FC = () => {
     setMessage("");
 
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/auth/forgot-password",
+      const response = await fetch(createApiEndpoint("auth/forgot-password")
+        ,
         {
           method: "POST",
           headers: {

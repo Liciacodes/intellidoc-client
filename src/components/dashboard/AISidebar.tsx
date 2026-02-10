@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import QAComponent from './QAComponent';
 import KeyPointsComponent from './KeyPointsComponent';
+import { createApiEndpoint } from '../../config/api';
 
 interface AISidebarProps {
   documentId: string;
@@ -36,8 +37,8 @@ const AISidebar: React.FC<AISidebarProps> = ({
     try {
       console.log('Sending summarization request for document:', documentId);
       
-      const response = await fetch(
-        `http://localhost:5000/api/documents/${documentId}/summarize`,
+      const response = await fetch(createApiEndpoint(`api/documents/${documentId}/summarize`)
+        ,
         {
           method: 'POST',
           headers: { 

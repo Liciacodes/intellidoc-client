@@ -1,4 +1,5 @@
 import { useState, useEffect, type ChangeEvent, type FormEvent } from "react";
+import { createApiEndpoint } from "../../config/api";
 
 interface FormData {
   name: string;
@@ -46,7 +47,7 @@ export default function Register() {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/register", {
+      const response = await fetch(createApiEndpoint("auth/register"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

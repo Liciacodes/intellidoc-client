@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDocumentStore } from '../../store/useDocumentStore';
 import AISidebar from './AISidebar';
+import { createApiEndpoint } from '../../config/api';
 
 interface DocumentViewerProps {
   documentId: string;
@@ -22,8 +23,8 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ documentId, onClose }) 
       try {
         setIsLoading(true);
 
-        const response = await fetch(
-          `http://localhost:5000/api/documents/${documentId}/content`,
+        const response = await fetch(createApiEndpoint(`api/documents/${documentId}/content`)
+          ,
           {
             headers: {
               'Authorization': `Bearer ${localStorage.getItem('token')}`

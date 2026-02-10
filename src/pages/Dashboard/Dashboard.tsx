@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useDocumentStore } from "../../store/useDocumentStore";
 import { useUserStore } from "../../store/useUserStore";
+import { createApiEndpoint } from "../../config/api";
 
 interface UploadedFile {
   id: string;
@@ -24,7 +25,7 @@ const Dashboard: React.FC = () => {
         setIsLoading(true);
         console.log('Fetching recent documents for dashboard');
 
-        const response = await fetch('http://localhost:5000/api/documents', {
+        const response = await fetch(createApiEndpoint('api/documents'), {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }

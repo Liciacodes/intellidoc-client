@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useUserStore } from "../../../store/useUserStore";
+import { createApiEndpoint } from "../../../config/api";
 
 const ProfileSettings: React.FC = () => {
   const { user } = useUserStore();
@@ -45,7 +46,7 @@ const ProfileSettings: React.FC = () => {
       }
 
       // Call the change-password endpoint
-      const response = await fetch('http://localhost:5000/api/auth/change-password', {
+      const response = await fetch(createApiEndpoint('api/auth/change-password'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

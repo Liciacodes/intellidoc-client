@@ -3,6 +3,7 @@ import { useDocumentStore } from "../../store/useDocumentStore";
 import DocumentPreviewModal from '../../components/dashboard/DocumentPreviewModal';
 import DocumentViewer from "../../components/dashboard/DocumentViewer";
 import type { UploadedDocument } from "../../store/useDocumentStore";
+import { createApiEndpoint } from "../../config/api";
 
 const MyDocument: React.FC = () => {
   const [selectedDoc, setSelectedDoc] = useState<UploadedDocument | null>(null);
@@ -18,7 +19,7 @@ const MyDocument: React.FC = () => {
           console.error('No auth token found - user might not be logged in');
           return;
         }
-        const response = await fetch('http://localhost:5000/api/documents', {
+        const response = await fetch(createApiEndpoint('api/documents'), {
           headers: {
             'Authorization': `Bearer ${token}`
           }

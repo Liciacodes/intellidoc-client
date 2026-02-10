@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { createApiEndpoint } from "../../config/api";
 
 interface KeyPointsComponentProps {
   documentId: string;
@@ -33,8 +34,8 @@ const KeyPointsComponent: React.FC<KeyPointsComponentProps> = ({
     try {
       console.log("Extracting key points for document:", documentId);
 
-      const response = await fetch(
-        `http://localhost:5000/api/documents/${documentId}/key-points`,
+      const response = await fetch(createApiEndpoint( `api/documents/${documentId}/key-points`)
+       ,
         {
           method: "POST",
           headers: {

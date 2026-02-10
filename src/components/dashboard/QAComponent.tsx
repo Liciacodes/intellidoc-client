@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import { createApiEndpoint } from '../../config/api';
 
 interface QAComponentProps {
   documentId: string;
@@ -38,8 +39,8 @@ const QAComponent: React.FC<QAComponentProps> = ({ documentId, documentContent }
     try {
       console.log('Asking question:', trimmedQuestion);
       
-      const response = await fetch(
-        `http://localhost:5000/api/documents/${documentId}/ask`,
+      const response = await fetch(createApiEndpoint( `api/documents/${documentId}/ask`)
+       ,
         {
           method: 'POST',
           headers: { 
