@@ -243,9 +243,9 @@ const MyDocument: React.FC = () => {
                         <th className="p-4 text-sm font-semibold text-dashboard-text-secondary-light dark:text-dashboard-text-secondary-dark">
                           Date Uploaded
                         </th>
-                        <th className="p-4 text-sm font-semibold text-dashboard-text-secondary-light dark:text-dashboard-text-secondary-dark">
+                        {/* <th className="p-4 text-sm font-semibold text-dashboard-text-secondary-light dark:text-dashboard-text-secondary-dark">
                           Last Modified
-                        </th>
+                        </th> */}
                         <th className="p-4 text-sm font-semibold text-dashboard-text-secondary-light dark:text-dashboard-text-secondary-dark">
                           File Size
                         </th>
@@ -277,9 +277,9 @@ const MyDocument: React.FC = () => {
                             <td className="p-4 text-sm text-dashboard-text-secondary-light dark:text-dashboard-text-secondary-dark">
                               {new Date(doc.uploadedAt).toLocaleDateString()}
                             </td>
-                            <td className="p-4 text-sm text-dashboard-text-secondary-light dark:text-dashboard-text-secondary-dark">
+                            {/* <td className="p-4 text-sm text-dashboard-text-secondary-light dark:text-dashboard-text-secondary-dark">
                               {new Date(doc.uploadedAt).toLocaleTimeString()}
-                            </td>
+                            </td> */}
                             <td className="p-4 text-sm text-dashboard-text-secondary-light dark:text-dashboard-text-secondary-dark">
                               {formatFileSize(doc.size)}
                             </td>
