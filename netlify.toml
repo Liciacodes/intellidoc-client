@@ -1,0 +1,45 @@
+# Netlify Configuration File
+# Place this file in the root of your project
+
+[build]
+  # Build command - adjust if yours is different
+  command = "npm run build"
+  
+  # Output directory - adjust based on your setup
+  # Vite default is "dist", Create React App is "build"
+  publish = "dist"
+
+# Production environment variables
+[context.production.environment]
+  # Replace with your actual Render backend 
+  VITE_API_URL = "https://intellidoc-api.onrender.com"
+
+# Deploy preview environment (for pull requests)
+[context.deploy-preview.environment]
+  VITE_API_URL = "https://intellidoc-api.onrender.com"
+
+# Branch deploy environment
+[context.branch-deploy.environment]
+  VITE_API_URL = "https://intellidoc-api.onrender.com"
+
+# SPA (Single Page Application) redirect
+# This ensures all routes work properly in React Router
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Optional: Custom headers for security
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Optional: Cache static assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
