@@ -34,7 +34,7 @@ const KeyPointsComponent: React.FC<KeyPointsComponentProps> = ({
     try {
       console.log("Extracting key points for document:", documentId);
 
-      const response = await fetch(createApiEndpoint( `api/documents/${documentId}/key-points`)
+      const response = await fetch(createApiEndpoint( `documents/${documentId}/key-points`)
        ,
         {
           method: "POST",

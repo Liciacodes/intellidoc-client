@@ -39,7 +39,7 @@ const QAComponent: React.FC<QAComponentProps> = ({ documentId, documentContent }
     try {
       console.log('Asking question:', trimmedQuestion);
       
-      const response = await fetch(createApiEndpoint( `api/documents/${documentId}/ask`)
+      const response = await fetch(createApiEndpoint( `documents/${documentId}/ask`)
        ,
         {
           method: 'POST',

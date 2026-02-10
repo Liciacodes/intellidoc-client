@@ -37,7 +37,7 @@ const AISidebar: React.FC<AISidebarProps> = ({
     try {
       console.log('Sending summarization request for document:', documentId);
       
-      const response = await fetch(createApiEndpoint(`api/documents/${documentId}/summarize`)
+      const response = await fetch(createApiEndpoint(`documents/${documentId}/summarize`)
         ,
         {
           method: 'POST',
