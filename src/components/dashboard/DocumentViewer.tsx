@@ -23,7 +23,7 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ documentId, onClose }) 
       try {
         setIsLoading(true);
 
-        const response = await fetch(createApiEndpoint(`api/documents/${documentId}/content`)
+        const response = await fetch(createApiEndpoint(`documents/${documentId}/content`)
           ,
           {
             headers: {

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { useDocumentStore } from "../../store/useDocumentStore";
 import { useUserStore } from "../../store/useUserStore";
 import { createApiEndpoint } from "../../config/api";
@@ -80,7 +81,7 @@ const Dashboard: React.FC = () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        alert('You need to be logged in to upload files.');
+        toast.error('You need to be logged in to upload files.');
         return null;
       }
       const response = await fetch(createApiEndpoint("documents/uploads")
@@ -104,7 +105,7 @@ const Dashboard: React.FC = () => {
       return result;
     } catch (error) {
       console.error("Error uploading file:", error);
-      alert(`Error uploading ${file.name}: ${error}`);
+      toast.error(`Error uploading ${file.name}: ${error}`);
       return null;
     }
   };
@@ -144,7 +145,7 @@ const Dashboard: React.FC = () => {
           file: file,
         });
       } else {
-        alert(`File type not supported: ${file.name}`);
+        toast.error(`File type not supported: ${file.name}`);
       }
     });
 

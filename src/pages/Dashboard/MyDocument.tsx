@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useDocumentStore } from "../../store/useDocumentStore";
 import DocumentPreviewModal from '../../components/dashboard/DocumentPreviewModal';
 import DocumentViewer from "../../components/dashboard/DocumentViewer";
@@ -70,10 +71,10 @@ const MyDocument: React.FC = () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        alert('You need to be logged in to delete a document.');
+        toast.error('You need to be logged in to delete a document.');
         return;
       }
-      const response = await fetch(createApiEndpoint(`api/documents/${id}`), { 
+      const response = await fetch(createApiEndpoint(`documents/${id}`), {
         method: "DELETE",
         headers: {
           'Authorization': `Bearer ${token}`
@@ -82,13 +83,13 @@ const MyDocument: React.FC = () => {
 
       if (response.ok) {
         removeDocument(id);
-        alert('Document deleted successfully');
+        toast.success('Document deleted successfully');
       } else {
-        alert('Failed to delete the document');
+        toast.error('Failed to delete the document');
       }
     } catch (error: any) {
       console.error('Delete error', error);
-      alert('Error deleting document');
+      toast.error('Error deleting document');
     }
   };
 

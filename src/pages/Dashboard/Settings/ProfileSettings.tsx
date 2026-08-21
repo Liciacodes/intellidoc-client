@@ -46,7 +46,7 @@ const ProfileSettings: React.FC = () => {
       }
 
       // Call the change-password endpoint
-      const response = await fetch(createApiEndpoint('api/auth/change-password'), {
+      const response = await fetch(createApiEndpoint('auth/change-password'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
