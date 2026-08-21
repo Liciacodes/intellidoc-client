@@ -77,8 +77,8 @@ export default function Register() {
         return;
       }
 
-      const data = await response.json();
-      
+      await response.json();
+
       // Show success toast
       toast.success(
         <div>
